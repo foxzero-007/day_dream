@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://day__dream.gitee.io/daydream/categories/index.html</loc>
+    
+    <lastmod>2021-03-30</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://day__dream.gitee.io/daydream/links/index.html</loc>
+    
+    <lastmod>2021-03-30</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://day__dream.gitee.io/daydream/tags/index.html</loc>
+    
+    <lastmod>2021-03-30</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://day__dream.gitee.io/daydream/2020/11/11/Python%E5%AE%9E%E7%8E%B0%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90%E5%92%8C%E8%AF%8D%E4%BA%91%E7%94%9F%E6%88%90/</loc>
     
     <lastmod>2020-11-14</lastmod>
@@ -16,14 +37,14 @@
   </url>
   
   <url>
-    <loc>https://day__dream.gitee.io/daydream/2020/09/05/Day01%202020.9.6%20%20%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01/</loc>
+    <loc>https://day__dream.gitee.io/daydream/2020/09/05/Mysql%E6%8C%87%E4%BB%A4%EF%BC%88%E8%BE%B9%E5%AD%A6%E8%BE%B9%E6%9B%B4%E6%96%B0%EF%BC%89/</loc>
     
     <lastmod>2020-10-08</lastmod>
     
   </url>
   
   <url>
-    <loc>https://day__dream.gitee.io/daydream/2020/09/05/Mysql%E6%8C%87%E4%BB%A4%EF%BC%88%E8%BE%B9%E5%AD%A6%E8%BE%B9%E6%9B%B4%E6%96%B0%EF%BC%89/</loc>
+    <loc>https://day__dream.gitee.io/daydream/2020/09/05/Day01%202020.9.6%20%20%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01/</loc>
     
     <lastmod>2020-10-08</lastmod>
     
@@ -58,28 +79,7 @@
   </url>
   
   <url>
-    <loc>https://day__dream.gitee.io/daydream/links/index.html</loc>
-    
-    <lastmod>2020-05-01</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://day__dream.gitee.io/daydream/404.html</loc>
-    
-    <lastmod>2020-05-01</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://day__dream.gitee.io/daydream/categories/index.html</loc>
-    
-    <lastmod>2020-05-01</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://day__dream.gitee.io/daydream/tags/index.html</loc>
     
     <lastmod>2020-05-01</lastmod>
     
@@ -88,7 +88,7 @@
 
   <url>
     <loc>https://day__dream.gitee.io/daydream</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -96,84 +96,84 @@
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2020-11-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://day__dream.gitee.io/daydream/tags/%E5%89%8D%E7%AB%AF/</loc>
-    <lastmod>2020-11-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://day__dream.gitee.io/daydream/tags/%E9%9B%B6%E6%95%A3/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/%E5%90%8E%E7%AB%AF/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/MySql/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://day__dream.gitee.io/daydream/tags/%E5%89%8D%E7%AB%AF/</loc>
+    <lastmod>2021-03-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://day__dream.gitee.io/daydream/tags/%E9%9B%B6%E6%95%A3/</loc>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/nltk/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/wordcloud/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/Python%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/%E5%BB%BA%E6%A8%A1/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/</loc>
-    <lastmod>2020-11-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://day__dream.gitee.io/daydream/tags/Hallo-World/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/tags/opencv/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://day__dream.gitee.io/daydream/tags/Hallo-World/</loc>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
@@ -181,36 +181,36 @@
 
   
   <url>
-    <loc>https://day__dream.gitee.io/daydream/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <loc>https://day__dream.gitee.io/daydream/categories/Web%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://day__dream.gitee.io/daydream/categories/Web%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <loc>https://day__dream.gitee.io/daydream/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/categories/Python%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2020-11-15</lastmod>
-    <changefreq>daily</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://day__dream.gitee.io/daydream/categories/hexo%E5%88%9D%E5%A7%8B%E5%8C%96/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
     <loc>https://day__dream.gitee.io/daydream/categories/%E6%9C%BA%E5%99%A8%E8%A7%86%E8%A7%89/</loc>
-    <lastmod>2020-11-15</lastmod>
+    <lastmod>2021-03-30</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://day__dream.gitee.io/daydream/categories/hexo%E5%88%9D%E5%A7%8B%E5%8C%96/</loc>
+    <lastmod>2021-03-30</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.6</priority>
   </url>
