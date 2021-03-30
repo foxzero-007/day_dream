@@ -72,31 +72,6 @@
   </entry>
   
   <entry>
-    <title>MySql指令(不定时更新)</title>
-    <link href="https://day__dream.gitee.io/daydream/2020/09/05/Mysql%E6%8C%87%E4%BB%A4%EF%BC%88%E8%BE%B9%E5%AD%A6%E8%BE%B9%E6%9B%B4%E6%96%B0%EF%BC%89/"/>
-    <id>https://day__dream.gitee.io/daydream/2020/09/05/Mysql%E6%8C%87%E4%BB%A4%EF%BC%88%E8%BE%B9%E5%AD%A6%E8%BE%B9%E6%9B%B4%E6%96%B0%EF%BC%89/</id>
-    <published>2020-09-04T16:00:00.000Z</published>
-    <updated>2020-10-08T16:00:00.000Z</updated>
-    
-    <content type="html"><![CDATA[<p>更新全凭心情，学习时间随机</p><span id="more"></span><h1 id="Mysql指令（边学边更新）"><a href="#Mysql指令（边学边更新）" class="headerlink" title="Mysql指令（边学边更新）"></a>Mysql指令（边学边更新）</h1><ol><li><p>安装服务： mysqld –install</p></li><li><p>初始化：mysqld –initialize –console</p></li><li><p>开启服务：net start mysql</p></li><li><p>关闭服务：net stop mysql</p></li><li><p>登录mysql：mysql -u root -p</p><p>​    Enter PassWord：（密码）</p></li><li><p> 修改密码：alter user ‘root’@’localhost’ identified by ‘root’</p></li><li><p> 标记删除mysql服务：sc delete mysql</p></li></ol>]]></content>
-    
-    
-    <summary type="html">对后端数据库指令的整合</summary>
-    
-    
-    
-    <category term="Web后端学习" scheme="https://day__dream.gitee.io/daydream/categories/Web%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-    <category term="学习" scheme="https://day__dream.gitee.io/daydream/tags/%E5%AD%A6%E4%B9%A0/"/>
-    
-    <category term="后端" scheme="https://day__dream.gitee.io/daydream/tags/%E5%90%8E%E7%AB%AF/"/>
-    
-    <category term="MySql" scheme="https://day__dream.gitee.io/daydream/tags/MySql/"/>
-    
-  </entry>
-  
-  <entry>
     <title>零散学习日记1</title>
     <link href="https://day__dream.gitee.io/daydream/2020/09/05/Day01%202020.9.6%20%20%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01/"/>
     <id>https://day__dream.gitee.io/daydream/2020/09/05/Day01%202020.9.6%20%20%E5%AD%A6%E4%B9%A0%E6%97%A5%E8%AE%B01/</id>
@@ -118,6 +93,31 @@
     <category term="前端" scheme="https://day__dream.gitee.io/daydream/tags/%E5%89%8D%E7%AB%AF/"/>
     
     <category term="零散" scheme="https://day__dream.gitee.io/daydream/tags/%E9%9B%B6%E6%95%A3/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>MySql指令(不定时更新)</title>
+    <link href="https://day__dream.gitee.io/daydream/2020/09/05/Mysql%E6%8C%87%E4%BB%A4%EF%BC%88%E8%BE%B9%E5%AD%A6%E8%BE%B9%E6%9B%B4%E6%96%B0%EF%BC%89/"/>
+    <id>https://day__dream.gitee.io/daydream/2020/09/05/Mysql%E6%8C%87%E4%BB%A4%EF%BC%88%E8%BE%B9%E5%AD%A6%E8%BE%B9%E6%9B%B4%E6%96%B0%EF%BC%89/</id>
+    <published>2020-09-04T16:00:00.000Z</published>
+    <updated>2020-10-08T16:00:00.000Z</updated>
+    
+    <content type="html"><![CDATA[<p>更新全凭心情，学习时间随机</p><span id="more"></span><h1 id="Mysql指令（边学边更新）"><a href="#Mysql指令（边学边更新）" class="headerlink" title="Mysql指令（边学边更新）"></a>Mysql指令（边学边更新）</h1><ol><li><p>安装服务： mysqld –install</p></li><li><p>初始化：mysqld –initialize –console</p></li><li><p>开启服务：net start mysql</p></li><li><p>关闭服务：net stop mysql</p></li><li><p>登录mysql：mysql -u root -p</p><p>​    Enter PassWord：（密码）</p></li><li><p> 修改密码：alter user ‘root’@’localhost’ identified by ‘root’</p></li><li><p> 标记删除mysql服务：sc delete mysql</p></li></ol>]]></content>
+    
+    
+    <summary type="html">对后端数据库指令的整合</summary>
+    
+    
+    
+    <category term="Web后端学习" scheme="https://day__dream.gitee.io/daydream/categories/Web%E5%90%8E%E7%AB%AF%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+    <category term="学习" scheme="https://day__dream.gitee.io/daydream/tags/%E5%AD%A6%E4%B9%A0/"/>
+    
+    <category term="后端" scheme="https://day__dream.gitee.io/daydream/tags/%E5%90%8E%E7%AB%AF/"/>
+    
+    <category term="MySql" scheme="https://day__dream.gitee.io/daydream/tags/MySql/"/>
     
   </entry>
   
