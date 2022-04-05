@@ -1,0 +1,457 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>浏览器内核详解 | 而立的小破栈</title><meta name="keywords" content="浏览器,内核,渲染"><meta name="author" content="而立"><meta name="copyright" content="而立"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="内核介绍以及以Chrome为例的内核渲染讲解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浏览器内核详解">
+<meta property="og:url" content="https://laocuicode.cn/daydream/2021/07/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8/index.html">
+<meta property="og:site_name" content="而立的小破栈">
+<meta property="og:description" content="内核介绍以及以Chrome为例的内核渲染讲解">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic3.jpeg">
+<meta property="article:published_time" content="2021-07-06T04:00:09.000Z">
+<meta property="article:modified_time" content="2021-07-06T07:09:08.000Z">
+<meta property="article:author" content="而立">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="浏览器">
+<meta property="article:tag" content="内核">
+<meta property="article:tag" content="Chrome">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic3.jpeg"><link rel="shortcut icon" href="/daydream/img/favicon.png"><link rel="canonical" href="https://laocuicode.cn/daydream/2021/07/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//hm.baidu.com"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/daydream/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css" media="print" onload="this.media='all'"><script>var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "https://hm.baidu.com/hm.js?271ff979056f1fd4c3d12e4289109904";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script><script>const GLOBAL_CONFIG = { 
+  root: '/daydream/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: {"limitCount":50,"languages":{"author":"作者: 而立","link":"链接: ","source":"来源: 而立的小破栈","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  lightbox: 'fancybox',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"bottom-left"},
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-07-06 15:09:08'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const fontSizeVal = saveToLocal.get('global-font-size')
+    if (fontSizeVal !== undefined) {
+      document.documentElement.style.setProperty('--global-font-size', fontSizeVal + 'px')
+    }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/daydream/atom.xml" title="而立的小破栈" type="application/atom+xml">
+</head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="https://i.loli.net/2020/10/16/OwNCUjMkfoHghQ9.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/daydream/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/daydream/tags/"><div class="headline">标签</div><div class="length-num">22</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/daydream/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/daydream/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic3.jpeg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/daydream/">而立的小破栈</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/daydream/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/daydream/links/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">浏览器内核详解</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-07-06T04:00:09.000Z" title="发表于 2021-07-06 12:00:09">2021-07-06</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-07-06T07:09:08.000Z" title="更新于 2021-07-06 15:09:08">2021-07-06</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/daydream/categories/%E5%89%8D%E7%AB%AF%E5%AD%A6%E4%B9%A0/">前端学习</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>9分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="什么是浏览器内核？"><a href="#什么是浏览器内核？" class="headerlink" title="什么是浏览器内核？"></a>什么是浏览器内核？</h2><blockquote>
+<p>一般我们常说的浏览器内核指的其实就是“渲染引擎”</p>
+</blockquote>
+<h3 id="浏览器的组成部分"><a href="#浏览器的组成部分" class="headerlink" title="浏览器的组成部分"></a>浏览器的组成部分</h3><blockquote>
+<p>浏览器的组成主要有三部分：用户界面，浏览器引擎以及渲染引擎</p>
+</blockquote>
+<p><strong>用户界面</strong>：这个其实就是我们平常使用浏览器看到的一部分</p>
+<p><strong>浏览器引擎</strong>：用于在用户界面和渲染引擎之间传递数据（一般来说这就是浏览器的数据持久层）</p>
+<p><strong>渲染引擎</strong>：负责渲染用户请求的页面内容</p>
+<ul>
+<li><p>渲染引擎包括多个小的功能模块如：</p>
+<p><code>网络模块</code>：负责网络请求</p>
+<p><code>JS解析器</code>：用于解析和执行JS</p>
+</li>
+</ul>
+<h2 id="常见浏览器内核以及其发展史"><a href="#常见浏览器内核以及其发展史" class="headerlink" title="常见浏览器内核以及其发展史"></a>常见浏览器内核以及其发展史</h2><blockquote>
+<p>这部分就比较生硬了，貌似所有介绍者都喜欢介绍这部分</p>
+</blockquote>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8F%91%E5%B1%95%E5%8F%B2.png" alt="image-20210706125850018"></p>
+<p><em>上图截取自油管视频主Luke Lee的视频</em></p>
+<ul>
+<li>1991年<code>Berners Lee</code>建立了第一代浏览器<code>World Wide Web</code></li>
+</ul>
+<blockquote>
+<p>Berners Lee是互联网发明者之一（妥妥的大佬）</p>
+<p>World Wide Web 只支持显示图片和文本</p>
+</blockquote>
+<ul>
+<li>1993年<code>Mosaic</code>问世</li>
+</ul>
+<blockquote>
+<p>Mosaic可以同时显示文本和图片</p>
+</blockquote>
+<ul>
+<li>1994年<code>网景</code>,<code>OPERA</code>发布</li>
+</ul>
+<blockquote>
+<p>网景的开发人员有一部分曾参与Mosaic开发</p>
+<p>只能显示HTML没有CSS和JS</p>
+<p>相较于网景，opera使用较少</p>
+</blockquote>
+<ul>
+<li>1995年<code>IE</code>诞生</li>
+</ul>
+<blockquote>
+<p>万恶之源？自此第一次浏览器大战正式打响</p>
+</blockquote>
+<ul>
+<li>1996年<code>IE3.0</code>发布且与windows融合</li>
+</ul>
+<blockquote>
+<p>此时网景的市场份额仍有86%</p>
+</blockquote>
+<ul>
+<li>1998年<code>网景</code>公司成立Mozilla基金会</li>
+</ul>
+<blockquote>
+<p>基金会用来开发火狐浏览器</p>
+</blockquote>
+<ul>
+<li>1999年<code>IE</code>占据99%市场</li>
+</ul>
+<blockquote>
+<p>牛哇</p>
+</blockquote>
+<ul>
+<li>2003年<code>Safari</code>浏览器问世</li>
+</ul>
+<blockquote>
+<p>觉得眼熟？这就是苹果专用浏览器</p>
+</blockquote>
+<ul>
+<li>2004年<code>Firefox(火狐)</code>问世</li>
+</ul>
+<blockquote>
+<p>第二次浏览器大战序幕拉开</p>
+</blockquote>
+<ul>
+<li>2005年苹果公司将<code>webkit</code>内核开源</li>
+</ul>
+<blockquote>
+<p>为浏览器发展贡献巨大，开源yyds</p>
+</blockquote>
+<ul>
+<li>2008年<code>google</code>以<code>webkit</code>为核心开发<code>chrome</code>和<code>chromium</code></li>
+</ul>
+<blockquote>
+<p>最强浏览器诞生？</p>
+</blockquote>
+<ul>
+<li>2015年微软推出以<code>webkit</code>为内核的浏览器<code>edge</code></li>
+</ul>
+<blockquote>
+<p>来晚咯</p>
+</blockquote>
+<h3 id="各浏览器对应内核"><a href="#各浏览器对应内核" class="headerlink" title="各浏览器对应内核"></a>各浏览器对应内核</h3><p><code>IE</code>: Trident</p>
+<p><code>FireFox</code>: Gecko</p>
+<p><code>Safari</code>: Webkit</p>
+<p><code>Chrome</code>,<code>Opera</code>,<code>Edge</code>: Blink(基于Webkit开发的)</p>
+<h2 id="以Chrome为例介绍浏览器运行"><a href="#以Chrome为例介绍浏览器运行" class="headerlink" title="以Chrome为例介绍浏览器运行"></a>以Chrome为例介绍浏览器运行</h2><p>本质：浏览器本质上是运行在操作系统上的一个应用程序</p>
+<blockquote>
+<p>应用程序的特征：每个应用程序至少启动一个进程来执行功能</p>
+<p>进程执行过程中由于有许多任务所以会创建线程来帮助执行</p>
+</blockquote>
+<p><strong>进程</strong>：是操作系统进行资源分配和调度的基本单元，可以申请和拥有计算机资源，进程是程序的基本执行实体</p>
+<p><strong>线程</strong>：线程是操作系统能够进行运算调度的最小单位，一个进程中可以并发多个线程，每条线程并行执行不同的任务</p>
+<p><strong>通俗点讲</strong>：应用程序启动后会创建多个进程。各个进程之间的内存空间不同，因此相互独立，进程之间通信需要通过<code>进程间通信管道IPC</code>来实现，每个进程可以将任务分成更多细小的人物，并通过创建多个线程<code>并行</code>执行不同的任务，同一进程下的线程是可以直接通信共享数据的</p>
+<h3 id="浏览器进程介绍"><a href="#浏览器进程介绍" class="headerlink" title="浏览器进程介绍"></a>浏览器进程介绍</h3><p><strong>早期浏览器使用单进程</strong>：</p>
+<ul>
+<li>不稳定：其中一个线程的卡死会导致整个进程卡死</li>
+<li>不安全：由于同一进程下的线程可以共享数据，js线程可以直接访问浏览器进程内的所有数据</li>
+<li>不流畅：一个进程需要负责太多事情会导致运行效率问题</li>
+</ul>
+<p><strong>现代浏览器使用多进程</strong>：</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%B5%8F%E8%A7%88%E5%99%A8%E7%BB%93%E6%9E%84.png" alt="image-20210706133613130"></p>
+<p><strong>浏览器进程</strong>：负责控制Chrome浏览器除标签页外的用户页面包括地址栏，书签，后退和前进按钮以及负责与浏览器的其他进程协调工作</p>
+<p><strong>网络进程</strong>：负责发起/接受网络请求</p>
+<p><strong>GPU进程</strong>：负责整个浏览器界面的渲染</p>
+<p><strong>插件进程</strong>：负责控制网站使用的所有插件（如flash等）</p>
+<p><strong>渲染器进程</strong>：用来控制显示tab标签内的所有内容</p>
+<blockquote>
+<p>浏览器在默认情况下会为每个标签页创建一个渲染器进程，这个操作与你启动Chrome时选择的进程模型有关</p>
+</blockquote>
+<h3 id="Chrome四种进程模型："><a href="#Chrome四种进程模型：" class="headerlink" title="Chrome四种进程模型："></a>Chrome四种进程模型：</h3><ul>
+<li>process-per-site-instance(default)：为用户访问的每个实例创建一个渲染器进程，这样可以确保来自不同站点的页面是独立呈现的，并且对同一站点的单独访问也是彼此隔离的，<strong>简单来说就是访问不同站点或者访问同一站点的不同页面都会产生新的进程</strong></li>
+<li>process-per-site：同一站点使用同一进程</li>
+<li>process-per-tab：一个tab里的所有站点使用同一个进程</li>
+<li>single-process：让浏览器引擎和渲染引擎共用一个进程</li>
+</ul>
+<h3 id="当你在浏览器地址栏输入网址"><a href="#当你在浏览器地址栏输入网址" class="headerlink" title="当你在浏览器地址栏输入网址"></a>当你在浏览器地址栏输入网址</h3><p>你知道当你在浏览器地址栏输入网址时，你的浏览器会做什么嘛：</p>
+<h3 id="浏览器进程"><a href="#浏览器进程" class="headerlink" title="浏览器进程"></a>浏览器进程</h3><ul>
+<li><p>首先，浏览器进程的UI会捕捉输入内容：</p>
+<ul>
+<li>如果访问的是网址，则UI线程会启动一个网络线程来请求DNS域名解析，接着开始连接服务器获取数据</li>
+<li>如果输入的是一串关键词，浏览器会使用默认配置的搜索引擎来查询</li>
+</ul>
+</li>
+<li><p>网络线程获取到数据之后：</p>
+<p>当网络线程获取的数据后会通过SafeBrowsing来检查站点是否是恶意站点，如果是则会提示警告，当然你也可以强制访问</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AE%89%E5%85%A8%E8%AE%BF%E9%97%AE.png" alt="image-20210706135600907"></p>
+<blockquote>
+<p>SafeBrowsing是谷歌内部的一套站点安全系统，通过检测该站点的数据来判断是否安全，比如查看IP是否在谷歌黑名单中</p>
+</blockquote>
+<p>当返回数据准备完毕并通过安全检验时，网络线程会通知UI线程，UI线程会创建一个渲染器进程来渲染页面，浏览器进程通过ICP将页面数据传递给渲染器进程</p>
+</li>
+</ul>
+<h3 id="渲染器进程"><a href="#渲染器进程" class="headerlink" title="渲染器进程"></a>渲染器进程</h3><ul>
+<li>渲染器进程接受到数据（HTML等），</li>
+<li>核心任务是：html，css，js，image等资源渲染成用户可以交互的web页面</li>
+<li>渲染器进程的主线程将html进行解析构造DOM数据结构</li>
+</ul>
+<blockquote>
+<p>DOM（文档对象数据模型）是浏览器对页面在其内部的表示形式。是程序员通过js可与之交互的数据结构和API</p>
+</blockquote>
+<h3 id="HTML渲染主要步骤："><a href="#HTML渲染主要步骤：" class="headerlink" title="HTML渲染主要步骤："></a>HTML渲染主要步骤：</h3><p><strong>Html的解析主要包括两个部分</strong></p>
+<ol>
+<li><p><em>Tokeniser阶段</em></p>
+<p>通过词法分析将HTML解析为多个标记</p>
+<p>这是一个基于事件的HTML文本解析过程，最后会生成一个Token序列输出，当然此过程中来自网络的HTML不一定是整个文档，网络端接收到一部分HTML字节流时就会通知解析机解析该部分的内容。</p>
+</li>
+<li><p><em>TreeConstruction阶段</em></p>
+<p>根据识别后的标记进行DOM树构造</p>
+<p>Tokeniser阶段的Token序列产生后，就会把序列一个一个地输入到TreeConstruction中，最后输出DOMTree。</p>
+</li>
+</ol>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/HTML%E8%A7%A3%E6%9E%90%E8%BF%87%E7%A8%8B.png" alt="image-20210706141138135"></p>
+<blockquote>
+<p>HTML解析过程中的几个重要点：</p>
+<ol>
+<li>CSS,image等静态资源需要从网络/本地存储中获取，这些资源加载不会阻塞html的解析</li>
+<li>JS执行会阻塞html解析，其原因是浏览器无法确认js是否会改变dom结构，因此遇到script标签会直接执行，所以我们需要使用async或者defer属性异步加载js</li>
+</ol>
+</blockquote>
+<ul>
+<li><p>主线程解析完HTML后开始解析CSS（默认CSS或自定义CSS）</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/CSS%E6%B8%B2%E6%9F%93.png" alt="image-20210706141659015"></p>
+</li>
+<li><p>主线程解析完CSS后要确定元素在页面的位置。这个过程被称作<code>layout</code>布局</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/layout%E5%B8%83%E5%B1%80%EF%BC%881%EF%BC%89.png" alt="image-20210706141905267"></p>
+</li>
+<li><p> 主线程通过遍历dom和计算好的样式来生成<code>layout tree</code>：</p>
+</li>
+</ul>
+<p>  ![image-20210706142031568](<a target="_blank" rel="noopener" href="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/layout">https://chqosssave.oss-cn-beijing.aliyuncs.com/img/layout</a> tree.png)</p>
+<blockquote>
+<p>dom tree和layout tree不是一一对应的，设置了<code>display:none</code>的dom节点不会出现在layout tree上</p>
+<p>在<code>before伪类</code>中添加了<code>content</code>值的元素，content里的内容会出现在layout tree上，不会出现在dom树里，这是因为dom tree是通过HTML解析获得，并不关心样式，而layout tree则是根据DOM和计算好的样式来生成</p>
+</blockquote>
+<ul>
+<li><p>接下来主线程需要确定以什么样的顺序绘制节点</p>
+</li>
+<li><p>主线程遍历layout tree创建绘制记录表（Paint Record），该表记录了绘制的顺序（这个阶段被称为绘制）</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/%E7%BB%98%E5%88%B6%E9%A1%BA%E5%BA%8F%E8%A1%A8.png" alt="image-20210706142812893"></p>
+</li>
+<li><p>现在一切准备就绪，到了将这些信息转化为像素点显示到屏幕上的时候了，这个行为叫做<strong>栅格化(Rastering)</strong></p>
+<ul>
+<li>早期Chrome使用极其简单的方式进行栅格化，即只栅格化用户可见区域的内容，造成的缺点就是展示延迟（当你向下滚动时要等待页面加载）</li>
+<li>而现在Chrome采用更为复杂的栅格化方式：**合成(Compositing)**：将页面的多个部分分成多个图层，分别对其进行栅格化，并在合成器线程(Compositor Thread)中单独进行合成页面的技术，简单来说就是页面所有的元素按照某种规则进行分图层并把图层都栅格化好了，然后只需要把可视区域的内容组合成一帧展示给用户即可</li>
+</ul>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/Chrome%E6%A0%85%E6%A0%BC%E5%8C%96%E6%96%B9%E6%B3%95.png" alt="image-20210706143311472"></p>
+</li>
+<li><p>主线程遍历layout tree生成layer(图层) tree，当layer tree生成完毕和绘制顺序确定后</p>
+<p>![image-20210706143811820](<a target="_blank" rel="noopener" href="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/layer">https://chqosssave.oss-cn-beijing.aliyuncs.com/img/layer</a> tree.png)</p>
+</li>
+<li><p>主线程将这些信息传递给合成器线程，合成器线程将每个图层栅格化，合成器会将一个大页面分割成许多图块(tiles)，然后将每个图块发送给栅格化线程</p>
+</li>
+<li><p>栅格线程栅格每个图块，并将它们存储在GPU内存中</p>
+</li>
+<li><p>在栅格化线程结束后，合成器线程会收集称为“draw quads”的图块信息，这些信息记录了图块在内存中的位置和在页面哪个位置绘制图块的信息</p>
+</li>
+<li><p>根据这些信息合成器线程生成了一个合成器帧(Compositor Frame)</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/%E5%90%88%E6%88%90%E5%99%A8%E5%B8%A7.png" alt="image-20210706144501182"></p>
+</li>
+<li><p>然后合成器帧通过IPC传送给浏览器进程，浏览器进程将合成器帧传送到GPU，然后GPU渲染展示到屏幕上（页面渲染完成）</p>
+</li>
+<li><p>当页面滚动发生变化，则会生成新的合成器帧让后继续上述步骤</p>
+</li>
+<li><p>总流程如下：</p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/%E6%B8%B2%E6%9F%93%E6%B5%81%E7%A8%8B%E6%A6%82%E6%8B%AC.png" alt="image-20210706144908915"></p>
+</li>
+<li><p>当排版发生改变，我们会重复上图过程，这个过程我们称为<strong>重排</strong></p>
+</li>
+<li><p>当我们改变某个元素的颜色属性时，不会触发重排，但是会触发样式的计算和绘制，这个过程称为<strong>重绘</strong></p>
+<blockquote>
+<p>重排和重绘都会占用主线程，而js也会占用主线程，当页面以60帧每秒（也就是每帧16ms）的刷新率时，用户才不会觉得卡顿，当页面在一帧的时间内布局和绘制结束后还有剩余时间，JS会获得主线程的使用权，如果JS执行时间过长就会导致下一帧开始时JS没有及时归还主线程，导致下一帧动画没有进行渲染，就会出现页面动画卡顿</p>
+</blockquote>
+</li>
+<li><p>优化手段：</p>
+<ul>
+<li><p>通过requestAnimationFrame()来处理：</p>
+<p>这个方法会在每一帧被调用，我们可以将js任务分为更小的任务块，在每一帧时间用完前暂停js执行归还主线程</p>
+</li>
+</ul>
+<blockquote>
+<p>React 最新的渲染引擎React fiber就用到这个API做了大量优化</p>
+</blockquote>
+<ul>
+<li>CSS中有个动画属性叫做<code>transform</code>通过该属性实现动画不会经过布局和绘制，而是直接运行在合成器线程和栅格线程，不会占用主线程，更不会收到主线程中JS的影响</li>
+</ul>
+<blockquote>
+<p>另外，transform动画由于不需要经过布局绘制，样式计算等操作，可以节省大量运算时间（方便实现动画）</p>
+</blockquote>
+<p><strong>transform动画取代原有动画实现</strong></p>
+<p><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/transform%E4%BB%A3%E6%9B%BF%E5%8A%A8%E7%94%BB.png" alt="image-20210706150318559"></p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">而立</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://laocuicode.cn/daydream/2021/07/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8/">https://laocuicode.cn/daydream/2021/07/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://laocuicode.cn/daydream" target="_blank">而立的小破栈</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/daydream/tags/%E5%89%8D%E7%AB%AF/">前端</a><a class="post-meta__tags" href="/daydream/tags/%E6%B5%8F%E8%A7%88%E5%99%A8/">浏览器</a><a class="post-meta__tags" href="/daydream/tags/%E5%86%85%E6%A0%B8/">内核</a><a class="post-meta__tags" href="/daydream/tags/Chrome/">Chrome</a></div><div class="post_share"><div class="social-share" data-image="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic3.jpeg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><div class="post-reward"><div class="reward-button button--animated"><i class="fas fa-qrcode"></i> 打赏</div><div class="reward-main"><ul class="reward-all"><li class="reward-item"><a href="/daydream/img/wechat.jpg" target="_blank"><img class="post-qr-code-img" src="/daydream/img/wechat.jpg" alt="微信"/></a><div class="post-qr-code-desc">微信</div></li><li class="reward-item"><a href="/daydream/img/alipay.jpg" target="_blank"><img class="post-qr-code-img" src="/daydream/img/alipay.jpg" alt="支付宝"/></a><div class="post-qr-code-desc">支付宝</div></li></ul></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/daydream/2022/03/25/hello-world/"><img class="prev-cover" src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic5.jpg" onerror="onerror=null;src='/daydream/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Hello World</div></div></a></div><div class="next-post pull-right"><a href="/daydream/2021/04/15/JavaScript%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89/"><img class="next-cover" src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic6.jpeg" onerror="onerror=null;src='/daydream/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">JavaScript进阶（2）</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/daydream/2020/09/05/Day01 2020.9.6  学习日记1/" title="零散学习日记1"><img class="cover" src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic6.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-09-05</div><div class="title">零散学习日记1</div></div></a></div><div><a href="/daydream/2021/04/15/JavaScript进阶（2）/" title="JavaScript进阶（2）"><img class="cover" src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic6.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-04-15</div><div class="title">JavaScript进阶（2）</div></div></a></div><div><a href="/daydream/2021/03/30/JavaScript进阶（ES5=ES6）/" title="JavaScript进阶（1）"><img class="cover" src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic1.jpeg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-03-30</div><div class="title">JavaScript进阶（1）</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div class="vcomment" id="vcomment"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="card-info-avatar is-center"><img class="avatar-img" src="https://i.loli.net/2020/10/16/OwNCUjMkfoHghQ9.jpg" onerror="this.onerror=null;this.src='/daydream/img/friend_404.gif'" alt="avatar"/><div class="author-info__name">而立</div><div class="author-info__description">希望成为有趣的人</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/daydream/archives/"><div class="headline">文章</div><div class="length-num">9</div></a></div><div class="card-info-data-item is-center"><a href="/daydream/tags/"><div class="headline">标签</div><div class="length-num">22</div></a></div><div class="card-info-data-item is-center"><a href="/daydream/categories/"><div class="headline">分类</div><div class="length-num">5</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/foxzero-007"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/foxzero-007" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:2549603631@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://wpa.qq.com/msgrd?v=3&amp;uin=2549603631&amp;site=qq&amp;menu=yes" target="_blank" title=""><i class="fab fa-qq"></i></a><a class="social-icon" href="https://weibo.com/u/5879814287" target="_blank" title=""><i class="fab fa-weibo"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>公告</span></div><div class="announcement_content">Welcome to my blog !</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8%EF%BC%9F"><span class="toc-number">1.</span> <span class="toc-text">什么是浏览器内核？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E7%9A%84%E7%BB%84%E6%88%90%E9%83%A8%E5%88%86"><span class="toc-number">1.1.</span> <span class="toc-text">浏览器的组成部分</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%B8%E8%A7%81%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8%E4%BB%A5%E5%8F%8A%E5%85%B6%E5%8F%91%E5%B1%95%E5%8F%B2"><span class="toc-number">2.</span> <span class="toc-text">常见浏览器内核以及其发展史</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E5%BA%94%E5%86%85%E6%A0%B8"><span class="toc-number">2.1.</span> <span class="toc-text">各浏览器对应内核</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A5Chrome%E4%B8%BA%E4%BE%8B%E4%BB%8B%E7%BB%8D%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%90%E8%A1%8C"><span class="toc-number">3.</span> <span class="toc-text">以Chrome为例介绍浏览器运行</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E7%A8%8B%E4%BB%8B%E7%BB%8D"><span class="toc-number">3.1.</span> <span class="toc-text">浏览器进程介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chrome%E5%9B%9B%E7%A7%8D%E8%BF%9B%E7%A8%8B%E6%A8%A1%E5%9E%8B%EF%BC%9A"><span class="toc-number">3.2.</span> <span class="toc-text">Chrome四种进程模型：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%93%E4%BD%A0%E5%9C%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9C%B0%E5%9D%80%E6%A0%8F%E8%BE%93%E5%85%A5%E7%BD%91%E5%9D%80"><span class="toc-number">3.3.</span> <span class="toc-text">当你在浏览器地址栏输入网址</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.4.</span> <span class="toc-text">浏览器进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B8%B2%E6%9F%93%E5%99%A8%E8%BF%9B%E7%A8%8B"><span class="toc-number">3.5.</span> <span class="toc-text">渲染器进程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#HTML%E6%B8%B2%E6%9F%93%E4%B8%BB%E8%A6%81%E6%AD%A5%E9%AA%A4%EF%BC%9A"><span class="toc-number">3.6.</span> <span class="toc-text">HTML渲染主要步骤：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/daydream/2022/04/01/202241-%E7%A1%AC%E6%A0%B8%E5%86%B7%E7%9F%A5%E8%AF%86%EF%BC%9AWebAssembly/" title="硬核冷知识：V8与WebAssembly不得不说的秘密"><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/webassembly.png" onerror="this.onerror=null;this.src='/daydream/img/404.jpg'" alt="硬核冷知识：V8与WebAssembly不得不说的秘密"/></a><div class="content"><a class="title" href="/daydream/2022/04/01/202241-%E7%A1%AC%E6%A0%B8%E5%86%B7%E7%9F%A5%E8%AF%86%EF%BC%9AWebAssembly/" title="硬核冷知识：V8与WebAssembly不得不说的秘密">硬核冷知识：V8与WebAssembly不得不说的秘密</a><time datetime="2022-04-01T02:50:00.000Z" title="发表于 2022-04-01 10:50:00">2022-04-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/daydream/2022/03/25/hello-world/" title="Hello World"><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic5.jpg" onerror="this.onerror=null;this.src='/daydream/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/daydream/2022/03/25/hello-world/" title="Hello World">Hello World</a><time datetime="2022-03-25T03:13:10.895Z" title="发表于 2022-03-25 11:13:10">2022-03-25</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/daydream/2021/07/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8/" title="浏览器内核详解"><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic3.jpeg" onerror="this.onerror=null;this.src='/daydream/img/404.jpg'" alt="浏览器内核详解"/></a><div class="content"><a class="title" href="/daydream/2021/07/06/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%86%85%E6%A0%B8/" title="浏览器内核详解">浏览器内核详解</a><time datetime="2021-07-06T04:00:09.000Z" title="发表于 2021-07-06 12:00:09">2021-07-06</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/daydream/2021/04/15/JavaScript%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89/" title="JavaScript进阶（2）"><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic6.jpeg" onerror="this.onerror=null;this.src='/daydream/img/404.jpg'" alt="JavaScript进阶（2）"/></a><div class="content"><a class="title" href="/daydream/2021/04/15/JavaScript%E8%BF%9B%E9%98%B6%EF%BC%882%EF%BC%89/" title="JavaScript进阶（2）">JavaScript进阶（2）</a><time datetime="2021-04-15T04:30:10.000Z" title="发表于 2021-04-15 12:30:10">2021-04-15</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/daydream/2021/03/30/JavaScript%E8%BF%9B%E9%98%B6%EF%BC%88ES5=ES6%EF%BC%89/" title="JavaScript进阶（1）"><img src="https://chqosssave.oss-cn-beijing.aliyuncs.com/img/pic1.jpeg" onerror="this.onerror=null;this.src='/daydream/img/404.jpg'" alt="JavaScript进阶（1）"/></a><div class="content"><a class="title" href="/daydream/2021/03/30/JavaScript%E8%BF%9B%E9%98%B6%EF%BC%88ES5=ES6%EF%BC%89/" title="JavaScript进阶（1）">JavaScript进阶（1）</a><time datetime="2021-03-30T04:30:10.000Z" title="发表于 2021-03-30 12:30:10">2021-03-30</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url('https://chqosssave.oss-cn-beijing.aliyuncs.com/img/1080p.jpeg')"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By 而立</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">Hi,welcome to my blog!</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font-plus" type="button" title="放大字体"><i class="fas fa-plus"></i></button><button id="font-minus" type="button" title="缩小字体"><i class="fas fa-minus"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/daydream/js/utils.js"></script><script src="/daydream/js/main.js"></script><script src="/daydream/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>function loadValine () {
+  function initValine () {
+    let initData = {
+      el: '#vcomment',
+      appId: '7xfHlLoYrBpDQtGWhlNOpsob-gzGzoHsz',
+      appKey: 'TuvfmifPaau3aShwmrSvMNIT',
+      placeholder: 'Please leave your footprints',
+      avatar: 'monsterid',
+      meta: 'nick,mail,link'.split(','),
+      pageSize: '10',
+      lang: 'en',
+      recordIP: false,
+      serverURLs: '',
+      emojiCDN: '',
+      emojiMaps: "",
+      enableQQ: false,
+      path: window.location.pathname,
+    }
+
+    if (true) { 
+      initData.requiredFields= ('nick,mail'.split(','))
+    }
+    
+    if (false) {
+      const otherData = false
+      initData = Object.assign(initData, otherData)
+    }
+    
+    const valine = new Valine(initData)
+  }
+
+  if (typeof Valine === 'function') initValine() 
+  else getScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js').then(initValine)
+}
+
+if ('Valine' === 'Valine' || !true) {
+  if (true) btf.loadComment(document.getElementById('vcomment'),loadValine)
+  else setTimeout(loadValine, 0)
+} else {
+  function loadOtherComment () {
+    loadValine()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
