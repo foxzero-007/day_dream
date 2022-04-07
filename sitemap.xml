@@ -23,13 +23,6 @@
   </url>
   
   <url>
-    <loc>https://laocuicode.cn/daydream/categories/index.html</loc>
-    
-    <lastmod>2022-03-25</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://laocuicode.cn/daydream/about/index.html</loc>
     
     <lastmod>2022-03-25</lastmod>
@@ -44,6 +37,13 @@
   </url>
   
   <url>
+    <loc>https://laocuicode.cn/daydream/about/site.html</loc>
+    
+    <lastmod>2022-03-25</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://laocuicode.cn/daydream/links/index.html</loc>
     
     <lastmod>2022-03-25</lastmod>
@@ -51,7 +51,7 @@
   </url>
   
   <url>
-    <loc>https://laocuicode.cn/daydream/about/site.html</loc>
+    <loc>https://laocuicode.cn/daydream/categories/index.html</loc>
     
     <lastmod>2022-03-25</lastmod>
     
